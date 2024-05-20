@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import { SEX_TYPES } from "../types/SEX_TYPES";
 import ErrorMessage from "./ErrorMessage";
 
-function AddPatient() {
+function AddPatientForm(props) {
 
     const patientForm = useRef({patientName:'', dateOfBirth: undefined, sex: undefined, language:'', operation:''});
     const [errors, setErrors] = useState({});
@@ -16,7 +16,11 @@ function AddPatient() {
                 headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
                 body: JSON.stringify({...patientForm.current, dateOfBirth: new Date(patientForm.current.dateOfBirth)})
             };
-            fetch('http://localhost:3000/patient', requestOptions)
+            fetch('http://localhost:3000/patient', requestOptions).then(res => {
+                if (res.ok){
+                    props.navigate('/');
+                }
+            })
         }
       }
 
@@ -110,4 +114,4 @@ function AddPatient() {
 
 }
 
-export default AddPatient;
+export default AddPatientForm;

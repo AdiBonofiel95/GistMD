@@ -2,15 +2,6 @@ import {useState, useEffect} from "react";
 
 function PatientsDashboard(props) {
 
-    const [data, setData] = useState([]);
-
-    useEffect (() =>{ fetchData()}, []);
-    
-    const fetchData = async () => {
-        let rawData = await fetch('http://localhost:3000/patient').then((res) => res.json());
-        setData(rawData);
-    }
-
     function calculateAge(dateOfBirth){
         var ageDiff = new Date(Date.now() - dateOfBirth.getTime());
         return Math.abs(ageDiff.getUTCFullYear() - 1970);
@@ -31,7 +22,7 @@ function PatientsDashboard(props) {
                     </tr>
                 </thead>
                 <tbody>
-                    {data.map(item => (
+                    {props.data.map(item => (
                         <tr key={item.id}>
                             <td>{item.id}</td>
                             <td>{item.patientName}</td>
