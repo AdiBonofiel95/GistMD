@@ -8,14 +8,12 @@ function PatientsDashboard(props) {
     
     const fetchData = async () => {
         let rawData = await fetch('http://localhost:3000/patient').then((res) => res.json());
-        console.log(rawData);
         setData(rawData);
     }
 
     function calculateAge(dateOfBirth){
         var ageDiff = new Date(Date.now() - dateOfBirth.getTime());
         return Math.abs(ageDiff.getUTCFullYear() - 1970);
-        // return dateOfBirth.getFullYear();
     }
 
 
