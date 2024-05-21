@@ -1,6 +1,16 @@
 import { useRef, useState } from "react";
 import { SEX_TYPES } from "../types/SEX_TYPES";
 import ErrorMessage from "./ErrorMessage";
+import TextField from '@mui/material/TextField';
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { MobileDatePicker } from '@mui/x-date-pickers/MobileDatePicker';
+import RadioGroup from '@mui/material/RadioGroup';
+import FormLabel from '@mui/material/FormLabel';
+import Radio from '@mui/material/Radio';
+import { FormControlLabel } from "@mui/material";
+import Grid from '@mui/material/Unstable_Grid2';
+import Button from '@mui/material/Button';
 
 function AddPatientForm(props) {
 
@@ -22,6 +32,7 @@ function AddPatientForm(props) {
                 }
             })
         }
+        console.log(patientForm.current);
       }
 
       const isFormValid = () => {
@@ -49,11 +60,8 @@ function AddPatientForm(props) {
             errors.operation = "Patient operation is missing";
         }
 
-        if (Object.keys(errors).length === 0) {
-            return true;
-        };
         setErrors(errors);
-        return false;
+        return Object.keys(errors).length === 0;
       }
 
       const onChangeName = (event) => {
@@ -65,7 +73,7 @@ function AddPatientForm(props) {
       }
 
       const onChangeDOB = (event) => {
-        patientForm.current.dateOfBirth = event.target.value;
+        patientForm.current.dateOfBirth = event.$d;
       }
 
       const onChangeLanguage = (event) => {
@@ -76,39 +84,34 @@ function AddPatientForm(props) {
         patientForm.current.operation = event.target.value;
       }
 
-      const inputStyle = {maxWidth: 150, margin:5}
-
-
     return (
-        <form onSubmit={handleSubmit} style={{display: "flex", flexDirection: "column", padding: 15}}>
-            {/* <label>Patient Name:</label> */}
-            <input type="text" placeholder="Patient Name" onChange={onChangeName} style={inputStyle} />
+        <form style={{display: "flex", flexDirection: "column", justifyContent: "space-evenly", padding: 20}}>
+            <TextField fullWidth label="Patient Name" id="fullWidth" onChange={onChangeName}/>
             {errors.patientName && (
                 <ErrorMessage message={errors.patientName}/>
             )}
-            <input type="date" placeholder="Date of Birth" onChange={onChangeDOB} style={inputStyle}/>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <MobileDatePicker onChange={onChangeDOB}/>
+            </LocalizationProvider>
             {errors.dateOfBirth && (
                 <ErrorMessage message={errors.dateOfBirth}/>
             )}
-            <div>
-                <p style={{maxWidth:"min-content", margin:"0"}}>sex</p>
-                <div style={{display:"flex", flexDirection:"row"}}>
-                    Male <input type="radio" name="sexType" value={SEX_TYPES.MALE} onChange={onChangeSex} style={inputStyle}/>
-                    Female <input type="radio" name="sexType" value={SEX_TYPES.FEMALE} onChange={onChangeSex} style={inputStyle}/>
-                </div>
-                {errors.sex && (
-                <ErrorMessage message={errors.sex}/>
-            )}
-            </div>
-            <input type="text" placeholder="Language" onChange={onChangeLanguage} style={inputStyle} />
+            <Grid container flexDirection={"column"} alignItems={"flex-start"}>
+                <FormLabel component={"legend"}>Sex</FormLabel>
+                <RadioGroup onChange={onChangeSex} row>
+                    <FormControlLabel value={SEX_TYPES.MALE} control={<Radio />} label="Male" />
+                    <FormControlLabel value={SEX_TYPES.FEMALE} control={<Radio />} label="Female" />
+                </RadioGroup>
+            </Grid>
+            <TextField fullWidth  label="Language" id="fullWidth" onChange={onChangeLanguage}/>
             {errors.language && (
                 <ErrorMessage message={errors.language}/>
             )}
-            <input type="text" placeholder="Operation" onChange={onChangeOperation} style={inputStyle} />
+            <TextField fullWidth label="Operation" id="fullWidth" onChange={onChangeOperation}/>
             {errors.operation && (
                 <ErrorMessage message={errors.operation}/>
             )}
-            <input type="submit" value={"Submit"} style={inputStyle}/>
+            <Button variant="outlined" onClick={handleSubmit}>Submit</Button>
         </form>
     );
 
