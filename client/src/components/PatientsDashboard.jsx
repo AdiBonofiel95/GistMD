@@ -1,40 +1,25 @@
-import {useState, useEffect} from "react";
+import { DataGrid } from '@mui/x-data-grid';
 
 function PatientsDashboard(props) {
-
-    function calculateAge(dateOfBirth){
-        var ageDiff = new Date(Date.now() - dateOfBirth.getTime());
-        return Math.abs(ageDiff.getUTCFullYear() - 1970);
-    }
+    const columns = [
+        { field: 'patientName', headerName: 'Patient name', minWidth: 200,},
+        { field: 'sex', headerName: 'Sex', minWidth: 100,},
+        { field: 'age', headerName: 'Age', type: 'number', minWidth: 100,},
+        { field: 'language', headerName: 'Language', minWidth: 140,},
+        { field: 'operation', headerName: 'Operation', minWidth: 140,},
+    ];
 
 
     return (
-        <div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Sex</th>
-                        <th>Age</th>
-                        <th>Languagee</th>
-                        <th>Operation</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {props.data.map(item => (
-                        <tr key={item.id}>
-                            <td>{item.id}</td>
-                            <td>{item.patientName}</td>
-                            <td>{item.sex}</td>
-                            <td>{calculateAge(new Date(item.dateOfBirth))}</td>
-                            <td>{item.language}</td>
-                            <td>{item.operation}</td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-        </div>
+        <DataGrid
+            rows={props.data}
+            columns={columns}
+            initialState={{
+            pagination: {
+                paginationModel: { page: 0, pageSize: 10 },
+            },
+            }}
+        />
     );
     
 }
