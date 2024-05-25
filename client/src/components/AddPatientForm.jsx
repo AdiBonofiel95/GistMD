@@ -1,6 +1,5 @@
 import { useRef, useState } from "react";
 import { SEX_TYPES } from "../types/SEX_TYPES";
-import ErrorMessage from "./ErrorMessage";
 import TextField from '@mui/material/TextField';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -11,6 +10,7 @@ import Radio from '@mui/material/Radio';
 import { FormControlLabel } from "@mui/material";
 import Grid from '@mui/material/Unstable_Grid2';
 import Button from '@mui/material/Button';
+import dayjs from "dayjs";
 
 function AddPatientForm(props) {
 
@@ -134,14 +134,17 @@ function AddPatientForm(props) {
             </Grid>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <MobileDatePicker 
-                    onChange={onChangeDOB} 
+                    label="Date of birth" 
+                    onChange={onChangeDOB}
+                    maxDate={dayjs()}
                     slotProps={{
-                        textField: "hello"
-                    }}/>
+                        textField: {
+                            error: errors.dateOfBirth ? true : false,
+                            helperText: errors.dateOfBirth
+                        }
+                    }}
+                />
             </LocalizationProvider>
-            {/* {errors.dateOfBirth && (
-                <ErrorMessage message={errors.dateOfBirth}/>
-            )} */}
             <Grid container flexDirection={"column"} alignItems={"flex-start"}>
                 <FormLabel component={"legend"}>Sex</FormLabel>
                 <RadioGroup onChange={onChangeSex} row defaultValue={SEX_TYPES.MALE}>
