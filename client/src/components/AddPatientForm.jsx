@@ -38,6 +38,9 @@ function AddPatientForm(props) {
                 if (res.ok){
                     props.navigate('/');
                 }
+                else {
+                    alert("something went wrong - not able to fetch")
+                }
             })
         }
       }
