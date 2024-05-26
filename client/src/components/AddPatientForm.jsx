@@ -11,6 +11,7 @@ import { FormControlLabel } from "@mui/material";
 import Grid from '@mui/material/Unstable_Grid2';
 import Button from '@mui/material/Button';
 import dayjs from "dayjs";
+import { postPatientData } from "../services/patientService";
 
 function AddPatientForm(props) {
 
@@ -27,16 +28,11 @@ function AddPatientForm(props) {
         event.preventDefault();
 
         if (isFormValid()){
-            patientForm.current.patientName = `${patientForm.current.patientFirstName} ${patientForm.current.patientLasttName}`;
+            patientForm.current.patientName = `${patientForm.current.patientFirstName} ${patientForm.current.patientLastName}`;
             patientForm.current.dateOfBirth = new Date(patientForm.current.dateOfBirth);
             delete patientForm.current.patientFirstName;
             delete patientForm.current.patientLastName;
-            const requestOptions = {
-                method: 'POST',
-                headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
-                body: JSON.stringify(patientForm.current)
-            };
-            fetch('http://localhost:3000/patient', requestOptions).then(res => {
+            postPatientData(patientForm.current).then(res => {
                 if (res.ok){
                     props.navigate('/');
                 }
