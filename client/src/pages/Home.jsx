@@ -24,7 +24,7 @@ function Home(){
     }
     
     return (
-        <Grid container justifyContent="center">
+        <Grid container justifyContent="center" height={"100vh"}>
             <Grid xs = {10}>
                 <div></div>
             </Grid>

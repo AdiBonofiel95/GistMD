@@ -14,11 +14,7 @@ function PatientsDashboard(props) {
         <DataGrid
             rows={props.data}
             columns={columns}
-            initialState={{
-            pagination: {
-                paginationModel: { page: 0, pageSize: 10 },
-            },
-            }}
+            autoPageSize={true}
         />
     );
     

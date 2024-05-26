@@ -6,9 +6,6 @@ import AddPatient from './pages/AddPatient';
 function App() {
   return (
     <div className="App">
-      {/* <PatientsDashboard /> */}
-      {/* <AddPatient /> */}
-
       <BrowserRouter>
         <Routes>
           <Route index element={<Home />} />

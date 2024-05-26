@@ -27,12 +27,14 @@ function AddPatientForm(props) {
         event.preventDefault();
 
         if (isFormValid()){
+            patientForm.current.patientName = `${patientForm.current.patientFirstName} ${patientForm.current.patientLasttName}`;
+            patientForm.current.dateOfBirth = new Date(patientForm.current.dateOfBirth);
+            delete patientForm.current.patientFirstName;
+            delete patientForm.current.patientLastName;
             const requestOptions = {
                 method: 'POST',
                 headers: {'Accept': 'application/json', 'Content-Type': 'application/json'},
-                body: JSON.stringify({...patientForm.current, 
-                                        patientName: `${patientForm.current.patientFirstName} ${patientForm.current.patientLasttName}`, 
-                                        dateOfBirth: new Date(patientForm.current.dateOfBirth)})
+                body: JSON.stringify(patientForm.current)
             };
             fetch('http://localhost:3000/patient', requestOptions).then(res => {
                 if (res.ok){
@@ -61,7 +63,7 @@ function AddPatientForm(props) {
       const isFormValid = () => {
         let errors = {}
         
-        if (IsValidName(patientForm.current.patientFirstName), "First") {
+        if (IsValidName(patientForm.current.patientFirstName, "First")) {
             errors.patientFirstName = IsValidName(patientForm.current.patientFirstName, "First");
         }
         if (IsValidName(patientForm.current.patientLastName, "Last")) {
