@@ -3,25 +3,16 @@ import PatientsDashboard from "../components/PatientsDashboard";
 import { useState, useEffect } from "react";
 import Grid from '@mui/material/Unstable_Grid2';
 import Button from '@mui/material/Button';
+import { importPatientData } from "../services/patientService";
 
 function Home(){
     const [data, setData] = useState([]);
 
     let navigate = useNavigate();
-    useEffect (() =>{ fetchData()}, []);
-
-    function calculateAge(dateOfBirth){
-        var ageDiff = new Date(Date.now() - dateOfBirth.getTime());
-        return Math.abs(ageDiff.getUTCFullYear() - 1970);
-    }
     
-    const fetchData = async () => {
-        let rawData = await fetch('http://localhost:3000/patient').then((res) => res.json());
-        rawData.forEach(element => {
-            element.age = calculateAge(new Date(element.dateOfBirth));
-        });
-        setData(rawData);
-    }
+    useEffect (() =>{ 
+        importPatientData().then(setData)
+    }, []);
     
     return (
         <Grid container justifyContent="center" height={"100vh"}>
