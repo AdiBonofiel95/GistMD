@@ -6,10 +6,7 @@ function calculateAge(dateOfBirth){
 }
 
 export async function importPatientData() {
-    let rawData = await fetch(process.env.REACT_APP_PATIENT_BACKEND_ENDPOINT).then((res) => res.json());
-    rawData.forEach(element => {
-        element.age = calculateAge(new Date(element.dateOfBirth));
-    });
+    let rawData = await (fetch(process.env.REACT_APP_PATIENT_BACKEND_ENDPOINT).then(res => res.json()));
 
     return rawData;
 }

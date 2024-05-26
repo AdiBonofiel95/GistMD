@@ -8,11 +8,25 @@ import { importPatientData } from "../services/patientService";
 function Home(){
     const [data, setData] = useState([]);
 
-    let navigate = useNavigate();
-    
     useEffect (() =>{ 
-        importPatientData().then(setData)
+        getData();
     }, []);
+
+    let navigate = useNavigate();
+
+    const getData = async () =>
+        {
+            let rawData = await importPatientData();
+            rawData.forEach(element => {
+                element.age = calculateAge(new Date(element.dateOfBirth));
+            });
+            setData(rawData);
+        }
+
+    function calculateAge(dateOfBirth){
+        var ageDiff = new Date(Date.now() - dateOfBirth.getTime());
+        return Math.abs(ageDiff.getUTCFullYear() - 1970);
+    }
     
     return (
         <Grid container justifyContent="center" height={"100vh"}>
