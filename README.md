@@ -11,6 +11,7 @@ I added the .env files to this project so it is available online for this projec
 Have a databse available and change DATABASE_URL variable according to the db attached if needed, as well as datasource inputs in schema.prisma.
 Once variables are set, open a cli and nevigate to GistMD-proj/back-source, and run `$npm run start:dev`.
 Open another cli and nevigate to GistMD-proj/client, and then run `$npm start`.
+Recommended to open the app using Edge browser, so when opening in "mobile mode" scrolling is available.
 
 ### Important:
 
